@@ -1,10 +1,10 @@
 import jwt
 
 # 1. Token asli yang ingin diubah
-old_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imd1ZXN0Iiwicm9sZSI6InVzZXIifQ.wYhXjKk6jfe2_4i5lyy0Tyrl4TM37XB-XSgXtSpXXgw"
+old_token = "eyJraWQiOiI1NmFlOWQ2NS1hY2MyLTRiMjItOTg1My0xMTM4MGFjYzI5NDgiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb3J0c3dpZ2dlciIsImV4cCI6MTc3NjM5NzMyMSwic3ViIjoid2llbmVyIn0.R10J776u9Mo41p-hDk2a06Wt_fd7masN1tBPtLHc1Ec"
 
 # 2. Secret Key yang kamu temukan (Misal: "secret-123")
-SECRET_KEY = "secret"
+SECRET_KEY = "secret1"
 
 try:
     # 3. Dekode tanpa verifikasi untuk mengambil data lama

